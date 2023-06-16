@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:instagramv2/controllers/signup_controller.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:instagramv2/widgets/text_field_input.dart';
 
 import '../controllers/login_controller.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
+    final controller = Get.put(SignupController());
 
     return Scaffold(
       body: SafeArea(
@@ -32,6 +33,22 @@ class LoginScreen extends StatelessWidget {
               ),
               const SizedBox(
                 height: 64,
+              ),
+              TextFieldInput(
+                controller: controller.username,
+                hintText: 'Username',
+                textInputType: TextInputType.text,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              TextFieldInput(
+                controller: controller.bio,
+                hintText: 'Bio',
+                textInputType: TextInputType.text,
+              ),
+              const SizedBox(
+                height: 24,
               ),
               TextFieldInput(
                 controller: controller.email,
@@ -75,13 +92,17 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: const Text("Don't have an account? "),
+                    child: const Text("have an account? "),
                   ),
                   GestureDetector(
+                    onTap: () {
+                      controller.signup(controller.email.text.trim(),
+                          controller.password.text.trim());
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(
-                        "Sign up",
+                        "Log in",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.blue),
                       ),
