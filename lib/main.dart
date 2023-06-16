@@ -32,10 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Instagram V2',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        theme: ThemeData.dark(useMaterial3: true),
         home: const LoginScreen()
         /* const ResponsiveLayout(
         mobileScreenLayout: MobileScreenLayout(),
