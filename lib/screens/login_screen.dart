@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:instagramv2/screens/signup_screen.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:instagramv2/widgets/text_field_input.dart';
 
@@ -51,7 +52,10 @@ class LoginScreen extends StatelessWidget {
                 height: 24,
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  controller.login(controller.email.text.trim(),
+                      controller.password.text.trim());
+                },
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
@@ -78,6 +82,9 @@ class LoginScreen extends StatelessWidget {
                     child: const Text("Don't have an account? "),
                   ),
                   GestureDetector(
+                    onTap: () {
+                      Get.to(() => const SignupScreen());
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(

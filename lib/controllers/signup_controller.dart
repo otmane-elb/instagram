@@ -8,7 +8,13 @@ class SignupController extends GetxController {
   final bio = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
-  void signup(String email, String password) async {
-    AuthRepo.instance.createUserWithEmailAndPassword(email, password);
+  void signup(
+    String email,
+    String password,
+    String username,
+    String bio,
+  ) async {
+    AuthRepo.instance
+        .createUserWithEmailAndPassword(email, password, username, bio);
   }
 }
