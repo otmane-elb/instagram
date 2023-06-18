@@ -124,6 +124,7 @@ class SignupScreen extends StatelessWidget {
                         controller.password.text.trim(),
                         controller.username.text,
                         controller.bio.text);
+                        
                   },
                   child: Container(
                     width: double.infinity,

@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagramv2/controllers/auth.dart';
-import 'package:instagramv2/utils/utils.dart';
+import 'package:instagramv2/utils/image_picker.dart';
 
 class SignupController extends GetxController {
   static SignupController get instance => Get.find();
