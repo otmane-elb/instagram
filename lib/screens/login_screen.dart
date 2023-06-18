@@ -35,7 +35,7 @@ class LoginScreen extends StatelessWidget {
                 height: 64,
               ),
               TextFieldInput(
-                controller: controller.email,
+                controller: controller.email.value,
                 hintText: 'Email',
                 textInputType: TextInputType.emailAddress,
               ),
@@ -43,7 +43,7 @@ class LoginScreen extends StatelessWidget {
                 height: 24,
               ),
               TextFieldInput(
-                controller: controller.password,
+                controller: controller.password.value,
                 hintText: 'password',
                 textInputType: TextInputType.visiblePassword,
                 ispassword: true,
@@ -53,8 +53,8 @@ class LoginScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  controller.login(controller.email.text.trim(),
-                      controller.password.text.trim());
+                  controller.login(controller.email.value.text..trim(),
+                      controller.password.value.text.trim());
                   print("login");
                 },
                 child: Container(

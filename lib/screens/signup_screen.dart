@@ -16,7 +16,6 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignupController());
-    final controller2 = Get.put(AuthRepo());
 
     return Scaffold(
       body: SafeArea(
@@ -85,7 +84,7 @@ class SignupScreen extends StatelessWidget {
                   height: 24,
                 ),
                 TextFieldInput(
-                  controller: controller.username,
+                  controller: controller.username.value,
                   hintText: 'Username',
                   textInputType: TextInputType.text,
                 ),
@@ -93,7 +92,7 @@ class SignupScreen extends StatelessWidget {
                   height: 24,
                 ),
                 TextFieldInput(
-                  controller: controller.bio,
+                  controller: controller.bio.value,
                   hintText: 'Bio',
                   textInputType: TextInputType.text,
                 ),
@@ -101,7 +100,7 @@ class SignupScreen extends StatelessWidget {
                   height: 24,
                 ),
                 TextFieldInput(
-                  controller: controller.email,
+                  controller: controller.email.value,
                   hintText: 'Email',
                   textInputType: TextInputType.emailAddress,
                 ),
@@ -109,7 +108,7 @@ class SignupScreen extends StatelessWidget {
                   height: 24,
                 ),
                 TextFieldInput(
-                  controller: controller.password,
+                  controller: controller.password.value,
                   hintText: 'password',
                   textInputType: TextInputType.visiblePassword,
                   ispassword: true,
@@ -120,10 +119,10 @@ class SignupScreen extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     controller.signup(
-                        controller.email.text.trim(),
-                        controller.password.text.trim(),
-                        controller.username.text,
-                        controller.bio.text);
+                        controller.email.value.text.trim(),
+                        controller.password.value.text.trim(),
+                        controller.username.value.text,
+                        controller.bio.value.text);
                         
                   },
                   child: Container(

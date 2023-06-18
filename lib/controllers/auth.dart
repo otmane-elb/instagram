@@ -14,8 +14,10 @@ class AuthRepo extends GetxController {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   late String? errorMessage;
-  late final Rx<User?> firebaseUser;
-
+  late  Rx<User?> firebaseUser;
+ AuthRepo() {
+    firebaseUser = Rx<User?>(_auth.currentUser);
+  }
   @override
   void onReady() {
     Future.delayed(const Duration(seconds: 2));
@@ -27,7 +29,7 @@ class AuthRepo extends GetxController {
 
   _usercheck(User? user) {
     user == null
-        ? Get.offAll(() => const SignupScreen())
+        ? Get.offAll(() => const LoginScreen())
         : Get.offAll(() => const Home());
   }
 
@@ -66,7 +68,7 @@ class AuthRepo extends GetxController {
         print("Firbase auth exeption ${ex.message}");
       }
       errorMessage = ex.message;
-      Get.snackbar('Error 1 ', errorMessage ?? '',
+      Get.snackbar('Error', errorMessage ?? '',
           snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
       const ex = SignUpWithEmailAndPasswordFailure();
@@ -74,7 +76,7 @@ class AuthRepo extends GetxController {
         print("Exception :${ex.message}");
       }
       errorMessage = ex.message;
-      Get.snackbar('Error 2', errorMessage ?? '',
+      Get.snackbar('Error', errorMessage ?? '',
           snackPosition: SnackPosition.BOTTOM);
     }
   }
@@ -90,12 +92,20 @@ class AuthRepo extends GetxController {
           ? Get.offAll(() => const Home())
           : Get.offAll(() => const LoginScreen());
     } on FirebaseAuthException catch (e) {
-      final failure = LoginWithEmailAndPasswordFailure.fromCode(e.code);
-      errorMessage = failure.message;
+      final ex = LoginWithEmailAndPasswordFailure.fromCode(e.code);
+      if (kDebugMode) {
+        print("Firbase auth exeption ${ex.message}");
+      }
+      errorMessage = ex.message;
       Get.snackbar('Error', errorMessage ?? '',
           snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
       errorMessage = e.toString();
+      const ex = LoginWithEmailAndPasswordFailure();
+      if (kDebugMode) {
+        print("Exception :${ex.message}");
+      }
+      errorMessage = ex.message;
       Get.snackbar('Error', errorMessage ?? '',
           snackPosition: SnackPosition.BOTTOM);
     }
@@ -103,5 +113,10 @@ class AuthRepo extends GetxController {
 
   Future<void> logout() async {
     await _auth.signOut();
+  }
+    @override
+  void onClose() {
+    Get.delete<AuthRepo>(); // Remove the instance from the dependency injection container
+    super.onClose();
   }
 }
