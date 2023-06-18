@@ -1,6 +1,11 @@
+import 'dart:typed_data';
+
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagramv2/controllers/auth.dart';
+import 'package:instagramv2/utils/utils.dart';
 
 class SignupController extends GetxController {
   static SignupController get instance => Get.find();
@@ -8,6 +13,26 @@ class SignupController extends GetxController {
   final bio = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
+  final Rx<Uint8List?> image = Rx<Uint8List?>(null);
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadImageFromAssets();
+  }
+
+  void loadImageFromAssets() async {
+    final ByteData? imageData = await rootBundle.load('assets/profile.png');
+    if (imageData != null) {
+      image.value = imageData.buffer.asUint8List();
+    }
+  }
+
+  void selectImage() async {
+    Uint8List? im = await pickerimage(ImageSource.gallery);
+    image.value = im;
+  }
+
   void signup(
     String email,
     String password,
@@ -15,6 +40,6 @@ class SignupController extends GetxController {
     String bio,
   ) async {
     AuthRepo.instance
-        .createUserWithEmailAndPassword(email, password, username, bio);
+        .createUserWithEmailAndPassword(email, password, username, bio,image.value ?? Uint8List(0));
   }
 }

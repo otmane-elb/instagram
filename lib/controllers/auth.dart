@@ -3,18 +3,22 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagramv2/controllers/exception.dart';
+import 'package:instagramv2/controllers/signup_controller.dart';
+import 'package:instagramv2/controllers/storage.dart';
 import 'package:instagramv2/screens/home.dart';
 import 'package:instagramv2/screens/login_screen.dart';
 import 'package:instagramv2/screens/signup_screen.dart';
 
 class AuthRepo extends GetxController {
   static AuthRepo get instance => Get.find();
+
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   late final Rx<User?> firebaseUser;
+
   @override
   void onReady() {
-    Future.delayed(Duration(seconds: 2));
+    Future.delayed(const Duration(seconds: 2));
     firebaseUser = Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
     ever(firebaseUser, _usercheck);
@@ -23,18 +27,23 @@ class AuthRepo extends GetxController {
 
   _usercheck(User? user) {
     user == null
-        ? Get.offAll(() => const Home())
-        : Get.offAll(() => const SignupScreen());
+        ? Get.offAll(() => const SignupScreen())
+        : Get.offAll(() => const Home());
   }
 
   Future<void> createUserWithEmailAndPassword(
-      String email, String password, String username, String bio) async {
+      String email, String password, String username, String bio,Uint8List image) async {
     try {
       UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (kDebugMode) {
         print(cred.user!.uid);
       }
+      // adding pic to storage
+      String photoUrl = await StorageMethodes().uploadImageToStorage(
+          "profile", image, false, cred.user!.uid);
+      print(photoUrl);
+      print('uploaded');
       await _firestore.collection('users').doc(cred.user!.uid).set({
         'username': username,
         'bio': bio,
@@ -42,8 +51,11 @@ class AuthRepo extends GetxController {
         'uid': cred.user!.uid,
         'followers': [],
         'following': [],
+        'photoUrl': photoUrl,
       });
-      print('Hi there ${firebaseUser.value}');
+      if (kDebugMode) {
+        print('Hi there ${firebaseUser.value}');
+      }
       firebaseUser.value != null
           ? Get.offAll(() => const Home())
           : Get.offAll(() => const SignupScreen());
@@ -66,6 +78,10 @@ class AuthRepo extends GetxController {
       String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      print(firebaseUser.value!.uid);
+      firebaseUser.value != null
+          ? Get.offAll(() => const Home())
+          : Get.offAll(() => const LoginScreen());
     } on FirebaseAuthException {}
   }
 

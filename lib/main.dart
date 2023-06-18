@@ -2,10 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:instagramv2/responsive/mobile_screen_layout.dart';
-import 'package:instagramv2/responsive/responsive.dart';
-import 'package:instagramv2/responsive/web_screen_layout.dart';
-import 'package:instagramv2/screens/login_screen.dart';
 import 'package:instagramv2/screens/signup_screen.dart';
 
 import 'controllers/auth.dart';

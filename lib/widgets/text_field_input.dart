@@ -5,7 +5,7 @@ class TextFieldInput extends StatelessWidget {
   final bool ispassword;
   final String hintText;
   final TextInputType textInputType;
-  TextFieldInput(
+  const TextFieldInput(
       {super.key,
       required this.controller,
       required this.hintText,
@@ -20,7 +20,7 @@ class TextFieldInput extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
           filled: true,
-          contentPadding: EdgeInsets.all(8),
+          contentPadding: const EdgeInsets.all(8),
           hintText: hintText,
           border: inputBorder,
           focusedBorder: inputBorder),

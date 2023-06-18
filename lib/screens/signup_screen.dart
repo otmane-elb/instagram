@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:instagramv2/controllers/auth.dart';
 import 'package:instagramv2/controllers/signup_controller.dart';
 import 'package:instagramv2/screens/login_screen.dart';
 import 'package:instagramv2/utils/colors.dart';
@@ -13,6 +16,7 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignupController());
+    final controller2 = Get.put(AuthRepo());
 
     return Scaffold(
       body: SafeArea(
@@ -37,31 +41,47 @@ class SignupScreen extends StatelessWidget {
                 const SizedBox(
                   height: 64,
                 ),
-                Stack(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl:
-                          'https://pbs.twimg.com/profile_images/1326578374085472256/zBYZNAJN_400x400.jpg',
-                      imageBuilder: (context, imageProvider) => CircleAvatar(
-                        radius: 64,
-                        backgroundImage: imageProvider,
-                      ),
-                      placeholder: (context, url) =>
-                          CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
-                    Positioned(
-                        left: 80,
-                        bottom: -10,
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.add_a_photo,
-                              color: Colors.blueAccent,
-                            )))
-                  ],
+                  Obx(() {
+        final Uint8List? imageValue = controller.image.value;
+
+        return Stack(
+          children: [
+            if (imageValue != null)
+              GestureDetector(
+                onTap: () {
+                  print(imageValue);
+                },
+                child: CircleAvatar(
+                  radius: 64,
+                  backgroundImage: MemoryImage(imageValue),
                 ),
-                const SizedBox(
+              )
+            else
+              GestureDetector(
+                onTap: () {
+                  print(controller.image.value);
+                },
+                child: const CircleAvatar(
+                  radius: 64,
+                  backgroundImage: AssetImage("assets/profile.png"),
+                ),
+              ),
+            Positioned(
+              left: 80,
+              bottom: -10,
+              child: IconButton(
+                onPressed: () {
+                  controller.selectImage();
+                },
+                icon: const Icon(
+                  Icons.add_a_photo,
+                  color: Colors.blueAccent,
+                ),
+              ),
+            )
+          ],
+        );
+      }),const SizedBox(
                   height: 24,
                 ),
                 TextFieldInput(
@@ -133,7 +153,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(() => LoginScreen());
+                        Get.to(() => const LoginScreen());
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 8),

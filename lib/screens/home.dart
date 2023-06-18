@@ -13,12 +13,12 @@ class Home extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Home"),
+            const Text("Home"),
             ElevatedButton(
                 onPressed: () {
-                  //  controller.logout();
+                  controller.logout();
                 },
-                child: Text("Log out"))
+                child: const Text("Log out"))
           ],
         ),
       ),
