@@ -2,9 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:instagramv2/screens/home.dart';
+import 'package:instagramv2/responsive/mobile_screen_layout.dart';
+import 'package:instagramv2/responsive/responsive.dart';
+import 'package:instagramv2/responsive/web_screen_layout.dart';
 import 'package:instagramv2/screens/login_screen.dart';
-import 'package:instagramv2/screens/signup_screen.dart';
 
 import 'controllers/auth.dart';
 
@@ -32,9 +33,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authRepo = AuthRepo.instance;
-    final Widget initialScreen = authRepo.firebaseUser.value != null
-        ? const Home()
-        : const LoginScreen();
+    final Widget initialScreen = authRepo.firebaseUser.value == null
+        ? const LoginScreen()
+        : const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
+          );
 
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,

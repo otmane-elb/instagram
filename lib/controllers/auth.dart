@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instagramv2/responsive/mobile_screen_layout.dart';
 import 'package:instagramv2/utils/exception.dart';
 import 'package:instagramv2/services/storage.dart';
-import 'package:instagramv2/screens/home.dart';
 import 'package:instagramv2/screens/login_screen.dart';
 import 'package:instagramv2/screens/signup_screen.dart';
+
+import '../responsive/responsive.dart';
+import '../responsive/web_screen_layout.dart';
 
 class AuthRepo extends GetxController {
   static AuthRepo get instance => Get.find();
@@ -14,8 +17,8 @@ class AuthRepo extends GetxController {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   late String? errorMessage;
-  late  Rx<User?> firebaseUser;
- AuthRepo() {
+  late Rx<User?> firebaseUser;
+  AuthRepo() {
     firebaseUser = Rx<User?>(_auth.currentUser);
   }
   @override
@@ -30,7 +33,10 @@ class AuthRepo extends GetxController {
   _usercheck(User? user) {
     user == null
         ? Get.offAll(() => const LoginScreen())
-        : Get.offAll(() => const Home());
+        : Get.offAll(() => const ResponsiveLayout(
+              mobileScreenLayout: MobileScreenLayout(),
+              webScreenLayout: WebScreenLayout(),
+            ));
   }
 
   Future<void> createUserWithEmailAndPassword(String email, String password,
@@ -60,7 +66,10 @@ class AuthRepo extends GetxController {
         print('Hi there ${firebaseUser.value}');
       }
       firebaseUser.value != null
-          ? Get.offAll(() => const Home())
+          ? Get.offAll(() => const ResponsiveLayout(
+                mobileScreenLayout: MobileScreenLayout(),
+                webScreenLayout: WebScreenLayout(),
+              ))
           : Get.offAll(() => const SignupScreen());
     } on FirebaseAuthException catch (e) {
       final ex = SignUpWithEmailAndPasswordFailure.fromCode(e.code);
@@ -89,7 +98,10 @@ class AuthRepo extends GetxController {
       errorMessage = null;
 
       firebaseUser.value != null
-          ? Get.offAll(() => const Home())
+          ? Get.offAll(() => const ResponsiveLayout(
+                mobileScreenLayout: MobileScreenLayout(),
+                webScreenLayout: WebScreenLayout(),
+              ))
           : Get.offAll(() => const LoginScreen());
     } on FirebaseAuthException catch (e) {
       final ex = LoginWithEmailAndPasswordFailure.fromCode(e.code);
@@ -114,9 +126,11 @@ class AuthRepo extends GetxController {
   Future<void> logout() async {
     await _auth.signOut();
   }
-    @override
+
+  @override
   void onClose() {
-    Get.delete<AuthRepo>(); // Remove the instance from the dependency injection container
+    Get.delete<
+        AuthRepo>(); // Remove the instance from the dependency injection container
     super.onClose();
   }
 }
