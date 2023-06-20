@@ -3,23 +3,21 @@ import 'package:get/get.dart';
 import 'package:instagramv2/controllers/auth.dart';
 import 'package:instagramv2/services/get_data.dart';
 
-class MobileScreenLayout extends StatefulWidget {
-  const MobileScreenLayout({super.key});
+class MobileScreenLayout extends StatelessWidget {
+  MobileScreenLayout({super.key});
 
-  @override
-  State<MobileScreenLayout> createState() => _MobileScreenLayoutState();
-}
-
-class _MobileScreenLayoutState extends State<MobileScreenLayout> {
-  final controller = Get.put(AuthRepo());
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(AuthRepo());
+
+    final dataController = Get.put(Databsecontroller());
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text("This is mobile"),
+          Obx(() => Text(dataController.username.value)),
           TextButton(
             onPressed: () {
               controller.logout();
@@ -28,12 +26,18 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           ),
           TextButton(
             onPressed: () {
-              getUsername();
+              dataController.getUsername();
             },
             child: const Text("print"),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
   }
 }

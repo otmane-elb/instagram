@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
     final authRepo = AuthRepo.instance;
     final Widget initialScreen = authRepo.firebaseUser.value == null
         ? const LoginScreen()
-        : const ResponsiveLayout(
+        :  ResponsiveLayout(
             mobileScreenLayout: MobileScreenLayout(),
             webScreenLayout: WebScreenLayout(),
           );

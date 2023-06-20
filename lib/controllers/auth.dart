@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagramv2/responsive/mobile_screen_layout.dart';
+import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/exception.dart';
 import 'package:instagramv2/services/storage.dart';
 import 'package:instagramv2/screens/login_screen.dart';
@@ -33,7 +34,7 @@ class AuthRepo extends GetxController {
   _usercheck(User? user) {
     user == null
         ? Get.offAll(() => const LoginScreen())
-        : Get.offAll(() => const ResponsiveLayout(
+        : Get.offAll(() => ResponsiveLayout(
               mobileScreenLayout: MobileScreenLayout(),
               webScreenLayout: WebScreenLayout(),
             ));
@@ -69,7 +70,7 @@ class AuthRepo extends GetxController {
         print('Hi there ${firebaseUser.value}');
       }
       firebaseUser.value != null
-          ? Get.offAll(() => const ResponsiveLayout(
+          ? Get.offAll(() => ResponsiveLayout(
                 mobileScreenLayout: MobileScreenLayout(),
                 webScreenLayout: WebScreenLayout(),
               ))
@@ -101,7 +102,7 @@ class AuthRepo extends GetxController {
       errorMessage = null;
 
       firebaseUser.value != null
-          ? Get.offAll(() => const ResponsiveLayout(
+          ? Get.offAll(() => ResponsiveLayout(
                 mobileScreenLayout: MobileScreenLayout(),
                 webScreenLayout: WebScreenLayout(),
               ))
@@ -128,6 +129,10 @@ class AuthRepo extends GetxController {
 
   Future<void> logout() async {
     await _auth.signOut();
+    // Reset DatabaseController instance and clear its data
+    final controller = Get.put(Databsecontroller());
+
+    controller.reset();
   }
 
   @override
