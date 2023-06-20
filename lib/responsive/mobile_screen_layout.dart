@@ -15,24 +15,24 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Text("This is mobile"),
-            TextButton(
-              onPressed: () {
-                controller.logout();
-              },
-              child: Text("Logout"),
-            ),
-            TextButton(
-              onPressed: () {
-                getUsername();
-              },
-              child: Text("print"),
-            ),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text("This is mobile"),
+          TextButton(
+            onPressed: () {
+              controller.logout();
+            },
+            child: const Text("Logout"),
+          ),
+          TextButton(
+            onPressed: () {
+              getUsername();
+            },
+            child: const Text("print"),
+          ),
+        ],
       ),
     );
   }
