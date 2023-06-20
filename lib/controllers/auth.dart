@@ -7,7 +7,7 @@ import 'package:instagramv2/utils/exception.dart';
 import 'package:instagramv2/services/storage.dart';
 import 'package:instagramv2/screens/login_screen.dart';
 import 'package:instagramv2/screens/signup_screen.dart';
-
+import 'package:instagramv2/models/user_model.dart' as model;
 import '../responsive/responsive.dart';
 import '../responsive/web_screen_layout.dart';
 
@@ -47,20 +47,23 @@ class AuthRepo extends GetxController {
       if (kDebugMode) {
         print(cred.user!.uid);
       }
-      // adding pic to storage
       String photoUrl = await StorageMethodes()
           .uploadImageToStorage("profile", image, false, cred.user!.uid);
+      model.User user = model.User(
+          email: email,
+          uid: cred.user!.uid,
+          photoUrl: photoUrl,
+          username: username,
+          bio: bio,
+          followers: [],
+          following: []);
+      // adding pic to storage
+
       print(photoUrl);
       print('uploaded');
-      await _firestore.collection('users').doc(cred.user!.uid).set({
-        'username': username,
-        'bio': bio,
-        'email': email,
-        'uid': cred.user!.uid,
-        'followers': [],
-        'following': [],
-        'photoUrl': photoUrl,
-      });
+      await _firestore.collection('users').doc(cred.user!.uid).set(
+            user.toJson(),
+          );
       errorMessage = null;
       if (kDebugMode) {
         print('Hi there ${firebaseUser.value}');

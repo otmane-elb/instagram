@@ -1,13 +1,12 @@
 import 'dart:typed_data';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:instagramv2/controllers/auth.dart';
 import 'package:instagramv2/controllers/signup_controller.dart';
 import 'package:instagramv2/screens/login_screen.dart';
 import 'package:instagramv2/utils/colors.dart';
+import 'package:instagramv2/utils/full_screen_image.dart';
 import 'package:instagramv2/widgets/text_field_input.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -40,47 +39,54 @@ class SignupScreen extends StatelessWidget {
                 const SizedBox(
                   height: 64,
                 ),
-                  Obx(() {
-        final Uint8List? imageValue = controller.image.value;
+                Obx(() {
+                  final Uint8List? imageValue = controller.image.value;
 
-        return Stack(
-          children: [
-            if (imageValue != null)
-              GestureDetector(
-                onTap: () {
-                  print(imageValue);
-                },
-                child: CircleAvatar(
-                  radius: 64,
-                  backgroundImage: MemoryImage(imageValue),
-                ),
-              )
-            else
-              GestureDetector(
-                onTap: () {
-                  print(controller.image.value);
-                },
-                child: const CircleAvatar(
-                  radius: 64,
-                  backgroundImage: AssetImage("assets/profile.png"),
-                ),
-              ),
-            Positioned(
-              left: 80,
-              bottom: -10,
-              child: IconButton(
-                onPressed: () {
-                  controller.selectImage();
-                },
-                icon: const Icon(
-                  Icons.add_a_photo,
-                  color: Colors.blueAccent,
-                ),
-              ),
-            )
-          ],
-        );
-      }),const SizedBox(
+                  return Stack(
+                    children: [
+                      if (imageValue != null)
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FullScreenImage(
+                                    imageProvider: MemoryImage(imageValue)),
+                              ),
+                            );
+                          },
+                          child: CircleAvatar(
+                            radius: 64,
+                            backgroundImage: MemoryImage(imageValue),
+                          ),
+                        )
+                      else
+                        GestureDetector(
+                          onTap: () {
+                            print(controller.image.value);
+                          },
+                          child: const CircleAvatar(
+                            radius: 64,
+                            backgroundImage: AssetImage("assets/profile.png"),
+                          ),
+                        ),
+                      Positioned(
+                        left: 80,
+                        bottom: -10,
+                        child: IconButton(
+                          onPressed: () {
+                            controller.selectImage();
+                          },
+                          icon: const Icon(
+                            Icons.add_a_photo,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                }),
+                const SizedBox(
                   height: 24,
                 ),
                 TextFieldInput(
@@ -123,7 +129,6 @@ class SignupScreen extends StatelessWidget {
                         controller.password.value.text.trim(),
                         controller.username.value.text,
                         controller.bio.value.text);
-                        
                   },
                   child: Container(
                     width: double.infinity,

@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -74,10 +73,8 @@ class SignupController extends GetxController {
   }
 
   void loadImageFromAssets() async {
-    final ByteData? imageData = await rootBundle.load('assets/profile.png');
-    if (imageData != null) {
-      image.value = imageData.buffer.asUint8List();
-    }
+    final ByteData imageData = await rootBundle.load('assets/profile.png');
+    image.value = imageData.buffer.asUint8List();
   }
 
   void selectImage() async {

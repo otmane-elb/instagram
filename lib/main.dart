@@ -23,11 +23,11 @@ Future<void> main() async {
   } else {
     await Firebase.initializeApp().then((value) => Get.put(AuthRepo()));
   }
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -44,11 +44,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Instagram V2',
         theme: ThemeData.dark(useMaterial3: true),
-        home: initialScreen
-        /* const ResponsiveLayout(
-        mobileScreenLayout: MobileScreenLayout(),
-        webScreenLayout: WebScreenLayout(),
-      ),*/
-        );
+        home: initialScreen);
   }
 }
