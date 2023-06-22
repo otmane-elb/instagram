@@ -20,9 +20,7 @@ class Databsecontroller extends GetxController {
     }
   }
 
-  void reset() {
-    mUser.value = null;
-  }
+
 
   @override
   void onReady() {

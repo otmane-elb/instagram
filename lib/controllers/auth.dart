@@ -130,9 +130,7 @@ class AuthRepo extends GetxController {
   Future<void> logout() async {
     await _auth.signOut();
     // Reset DatabaseController instance and clear its data
-    final controller = Get.put(Databsecontroller());
     Get.delete<Databsecontroller>();
-    controller.reset();
   }
 
   @override
