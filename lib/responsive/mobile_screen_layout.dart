@@ -24,20 +24,16 @@ class MobileScreenLayout extends StatelessWidget {
             },
             child: const Text("Logout"),
           ),
-          TextButton(
-            onPressed: () {
-              dataController.getUsername();
-            },
-            child: const Text("print"),
-          ),
+          Obx(() {
+            if (dataController.mUser != null &&
+                dataController.mUser.value != null) {
+              return Text(dataController.mUser.value!.bio);
+            } else {
+              return const Text("Loading...");
+            }
+          }),
         ],
       ),
     );
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
   }
 }
