@@ -17,7 +17,7 @@ class MobileScreenLayout extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Obx(() => Text(dataController.username.value)),
+          Obx(() => Text(dataController.mUser.value!.username)),
           TextButton(
             onPressed: () {
               controller.logout();
@@ -27,7 +27,7 @@ class MobileScreenLayout extends StatelessWidget {
           Obx(() {
             if (dataController.mUser != null &&
                 dataController.mUser.value != null) {
-              return Text(dataController.mUser.value!.bio);
+              return Text(dataController.mUser.value!.email);
             } else {
               return const Text("Loading...");
             }
