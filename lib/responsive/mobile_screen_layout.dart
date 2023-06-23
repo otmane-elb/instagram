@@ -81,7 +81,9 @@ class MobileScreenLayout extends StatelessWidget {
                 ),
                 backgroundColor: primaryColor),
           ],
-          ),
+          onTap: (int page) {
+            pagecontroller.navigationTapped(_page);
+          }),
     );
   }
 }
