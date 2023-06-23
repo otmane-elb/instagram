@@ -11,15 +11,28 @@ class MobileScreenLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(AuthRepo());
+    // final controller = Get.put(AuthRepo());
 
-    final dataController = Get.put(Databsecontroller());
+    // final dataController = Get.put(Databsecontroller());
     final pagecontroller = Get.put(PagesController());
 
-    int _page = 0;
+    int page = 0;
 
     return Scaffold(
-      body: Column(
+      body: SafeArea(
+        child: PageView(
+          children: [
+            Text("home"),
+            Text("home1"),
+            Text("home2"),
+            Text("home3"),
+            Text("home4"),
+          ],
+          controller: pagecontroller.pageController.value,
+        ),
+      )
+
+      /*Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -46,43 +59,55 @@ class MobileScreenLayout extends StatelessWidget {
             }
           }),
         ],
-      ),
+      ),*/
+      ,
       bottomNavigationBar: CupertinoTabBar(
           backgroundColor: mobileBackgroundColor,
           items: [
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                  color: _page == 0 ? primaryColor : secondaryColor,
+                icon: Obx(
+                  ()=> Icon(
+                    Icons.home,
+                    color: pagecontroller.page.value == 0 ? primaryColor : secondaryColor,
+                  ),
                 ),
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.search,
-                  color: _page == 1 ? primaryColor : secondaryColor,
+                icon: Obx(
+                  ()=> Icon(
+                    Icons.search,
+                    color: pagecontroller.page.value == 1 ? primaryColor : secondaryColor,
+                  ),
                 ),
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.add_circle,
-                  color: _page == 2 ? primaryColor : secondaryColor,
+                icon: Obx(
+                  ()=> Icon(
+                    Icons.add_circle,
+                    color: pagecontroller.page.value == 2 ? primaryColor : secondaryColor,
+                  ),
                 ),
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.favorite,
-                  color: _page == 3 ? primaryColor : secondaryColor,
+                icon: Obx(
+                  ()=>Icon(
+                    Icons.favorite,
+                    color: pagecontroller.page.value == 3 ? primaryColor : secondaryColor,
+                  ),
                 ),
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person,
-                  color: _page == 4 ? primaryColor : secondaryColor,
+                icon:Obx(
+                  ()=> Icon(
+                    Icons.person,
+                    color: pagecontroller.page.value == 4 ? primaryColor : secondaryColor,
+                  ),
                 ),
                 backgroundColor: primaryColor),
           ],
           onTap: (int page) {
-            pagecontroller.navigationTapped(_page);
+            pagecontroller.navigationTapped(page);
+           
           }),
     );
   }
