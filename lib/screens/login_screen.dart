@@ -55,7 +55,6 @@ class LoginScreen extends StatelessWidget {
                 onTap: () {
                   controller.login(controller.email.value.text..trim(),
                       controller.password.value.text.trim());
-                  print("login");
                 },
                 child: Container(
                   width: double.infinity,

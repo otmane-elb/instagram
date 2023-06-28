@@ -61,14 +61,9 @@ class SignupScreen extends StatelessWidget {
                           ),
                         )
                       else
-                        GestureDetector(
-                          onTap: () {
-                            print(controller.image.value);
-                          },
-                          child: const CircleAvatar(
-                            radius: 64,
-                            backgroundImage: AssetImage("assets/profile.png"),
-                          ),
+                        const CircleAvatar(
+                          radius: 64,
+                          backgroundImage: AssetImage("assets/profile.png"),
                         ),
                       Positioned(
                         left: 80,

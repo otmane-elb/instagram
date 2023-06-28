@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:instagramv2/controllers/auth.dart';
 import 'package:instagramv2/controllers/pages.dart';
-import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
 
 class MobileScreenLayout extends StatelessWidget {
-  MobileScreenLayout({super.key});
+  const MobileScreenLayout({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +14,21 @@ class MobileScreenLayout extends StatelessWidget {
     // final dataController = Get.put(Databsecontroller());
     final pagecontroller = Get.put(PagesController());
 
-    int page = 0;
 
     return Scaffold(
       body: SafeArea(
         child: PageView(
-          children: [
+          controller: pagecontroller.pageController.value,
+          onPageChanged: (value) {
+            
+          },
+          children: const [
             Text("home"),
             Text("home1"),
             Text("home2"),
             Text("home3"),
             Text("home4"),
           ],
-          controller: pagecontroller.pageController.value,
         ),
       )
 

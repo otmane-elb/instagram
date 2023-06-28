@@ -4,11 +4,11 @@ import 'package:photo_view/photo_view.dart';
 class FullScreenImage extends StatelessWidget {
   final ImageProvider imageProvider;
 
-  const FullScreenImage({required this.imageProvider});
+  const FullScreenImage({super.key, required this.imageProvider});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(  
       body: GestureDetector(
         onTap: () {
           Navigator.pop(context);

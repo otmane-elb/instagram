@@ -34,7 +34,7 @@ class AuthRepo extends GetxController {
   _usercheck(User? user) {
     user == null
         ? Get.offAll(() => const LoginScreen())
-        : Get.offAll(() => ResponsiveLayout(
+        : Get.offAll(() => const ResponsiveLayout(
               mobileScreenLayout: MobileScreenLayout(),
               webScreenLayout: WebScreenLayout(),
             ));
@@ -60,8 +60,7 @@ class AuthRepo extends GetxController {
           following: []);
       // adding pic to storage
 
-      print(photoUrl);
-      print('uploaded');
+   
       await _firestore.collection('users').doc(cred.user!.uid).set(
             user.toJson(),
           );
@@ -70,7 +69,7 @@ class AuthRepo extends GetxController {
         print('Hi there ${firebaseUser.value}');
       }
       firebaseUser.value != null
-          ? Get.offAll(() => ResponsiveLayout(
+          ? Get.offAll(() => const ResponsiveLayout(
                 mobileScreenLayout: MobileScreenLayout(),
                 webScreenLayout: WebScreenLayout(),
               ))
@@ -98,11 +97,10 @@ class AuthRepo extends GetxController {
       String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      print(firebaseUser.value!.uid);
       errorMessage = null;
 
       firebaseUser.value != null
-          ? Get.offAll(() => ResponsiveLayout(
+          ? Get.offAll(() => const ResponsiveLayout(
                 mobileScreenLayout: MobileScreenLayout(),
                 webScreenLayout: WebScreenLayout(),
               ))

@@ -14,10 +14,10 @@ class Databsecontroller extends GetxController {
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get();
-      print(snap.data());
       mUser.value = model.User.fromsnapshot(snap);
       return mUser;
     }
+    return null;
   }
 
 
