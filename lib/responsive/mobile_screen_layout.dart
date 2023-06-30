@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/controllers/pages.dart';
 import 'package:instagramv2/utils/colors.dart';
+import 'package:instagramv2/utils/constants.dart';
 
 class MobileScreenLayout extends StatelessWidget {
   const MobileScreenLayout({super.key});
@@ -14,22 +15,13 @@ class MobileScreenLayout extends StatelessWidget {
     // final dataController = Get.put(Databsecontroller());
     final pagecontroller = Get.put(PagesController());
 
-
     return Scaffold(
       body: SafeArea(
         child: PageView(
-          controller: pagecontroller.pageController.value,
-          onPageChanged: (value) {
-            
-          },
-          children: const [
-            Text("home"),
-            Text("home1"),
-            Text("home2"),
-            Text("home3"),
-            Text("home4"),
-          ],
-        ),
+            physics: NeverScrollableScrollPhysics(),
+            controller: pagecontroller.pageController.value,
+            onPageChanged: (value) {},
+            children: homeScreenItems),
       )
 
       /*Column(
@@ -66,48 +58,57 @@ class MobileScreenLayout extends StatelessWidget {
           items: [
             BottomNavigationBarItem(
                 icon: Obx(
-                  ()=> Icon(
+                  () => Icon(
                     Icons.home,
-                    color: pagecontroller.page.value == 0 ? primaryColor : secondaryColor,
+                    color: pagecontroller.page.value == 0
+                        ? primaryColor
+                        : secondaryColor,
                   ),
                 ),
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
                 icon: Obx(
-                  ()=> Icon(
+                  () => Icon(
                     Icons.search,
-                    color: pagecontroller.page.value == 1 ? primaryColor : secondaryColor,
+                    color: pagecontroller.page.value == 1
+                        ? primaryColor
+                        : secondaryColor,
                   ),
                 ),
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
                 icon: Obx(
-                  ()=> Icon(
+                  () => Icon(
                     Icons.add_circle,
-                    color: pagecontroller.page.value == 2 ? primaryColor : secondaryColor,
+                    color: pagecontroller.page.value == 2
+                        ? primaryColor
+                        : secondaryColor,
                   ),
                 ),
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
                 icon: Obx(
-                  ()=>Icon(
+                  () => Icon(
                     Icons.favorite,
-                    color: pagecontroller.page.value == 3 ? primaryColor : secondaryColor,
+                    color: pagecontroller.page.value == 3
+                        ? primaryColor
+                        : secondaryColor,
                   ),
                 ),
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
-                icon:Obx(
-                  ()=> Icon(
+                icon: Obx(
+                  () => Icon(
                     Icons.person,
-                    color: pagecontroller.page.value == 4 ? primaryColor : secondaryColor,
+                    color: pagecontroller.page.value == 4
+                        ? primaryColor
+                        : secondaryColor,
                   ),
                 ),
                 backgroundColor: primaryColor),
           ],
           onTap: (int page) {
             pagecontroller.navigationTapped(page);
-           
           }),
     );
   }
