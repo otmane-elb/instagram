@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,8 +11,23 @@ class AddPostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController descriptionController = TextEditingController();
     final controller = Get.put(AddPostController());
     final controller2 = Get.put(Databsecontroller());
+    final controller3 = Get.put(AddPostController());
+    void postImage(String uid, String username, String profImage) async {
+      try {
+        Uint8List? file = controller.gfile.value;
+
+        String res = await controller3.uploadPost(
+            descriptionController.text, file!, uid, profImage, username);
+        if (res == "success") {
+          Get.snackbar('Posted', res, snackPosition: SnackPosition.BOTTOM);
+        } else {
+          Get.snackbar('Error', res, snackPosition: SnackPosition.BOTTOM);
+        }
+      } catch (e) {}
+    }
 
     return Obx(() {
       Uint8List? file = controller.gfile.value;
@@ -36,7 +52,11 @@ class AddPostScreen extends StatelessWidget {
                 centerTitle: false,
                 actions: [
                   TextButton(
-                    onPressed: () {//post image 
+                    onPressed: () {
+                      postImage(
+                          controller2.mUser.value!.uid,
+                          controller2.mUser.value!.username,
+                          controller2.mUser.value!.photoUrl);
                     },
                     child: const Text(
                       "Post",

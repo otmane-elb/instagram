@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,7 +12,7 @@ import 'package:uuid/uuid.dart';
 class AddPostController extends GetxController {
   static AddPostController get instance => Get.find();
   late Rx<Uint8List?> gfile;
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   AddPostController() {
     gfile = Rx<Uint8List?>(null);
@@ -64,7 +63,7 @@ class AddPostController extends GetxController {
     try {
       String photoUrl = await StorageMethodes()
           .uploadImageToStorage('posts', file, true, uid);
-      String postId = Uuid().v1();
+      String postId = const Uuid().v1();
       Post post = Post(
           description: description,
           uid: uid,
@@ -74,9 +73,13 @@ class AddPostController extends GetxController {
           postUrl: photoUrl,
           likes: [],
           profImage: profImage);
+      _firestore.collection('posts').doc(postId).set(post.toJson());
+      res = "success";
     } catch (e) {
       res = e.toString();
     }
     return res;
   }
+
+ 
 }
