@@ -29,8 +29,9 @@ class User {
     };
   }
 
-  static User fromsnapshot(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, dynamic>;
+static User fromsnapshot(DocumentSnapshot snap) {
+  var snapshot = snap.data();
+  if (snapshot != null && snapshot is Map<String, dynamic>) {
     return User(
       email: snapshot['email'],
       uid: snapshot['uid'],
@@ -40,5 +41,9 @@ class User {
       followers: snapshot['followers'],
       following: snapshot['following'],
     );
+  } else {
+    throw Exception('Invalid snapshot data');
   }
+}
+
 }

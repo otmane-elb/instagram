@@ -18,7 +18,7 @@ class MobileScreenLayout extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: PageView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             controller: pagecontroller.pageController.value,
             onPageChanged: (value) {},
             children: homeScreenItems),
