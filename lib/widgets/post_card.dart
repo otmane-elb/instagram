@@ -20,7 +20,7 @@ class PostCard extends StatelessWidget {
                   radius: 16,
                   backgroundImage: AssetImage("assets/profile.png"),
                 ),
-                Expanded(
+                const Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(left: 8),
                     child: Column(
@@ -41,7 +41,7 @@ class PostCard extends StatelessWidget {
                         context: context,
                         builder: (context) => Dialog(
                           child: ListView(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               vertical: 16,
                             ),
                             shrinkWrap: true,
@@ -52,7 +52,7 @@ class PostCard extends StatelessWidget {
                                   (e) => InkWell(
                                     onTap: () {},
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 12, horizontal: 16),
                                       child: Text(e),
                                     ),
