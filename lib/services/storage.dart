@@ -9,8 +9,8 @@ class StorageMethodes {
       String childName, Uint8List file, bool isPost, String uid) async {
     Reference ref = storage.ref().child(childName).child(uid);
     if (isPost) {
-      String id = Uuid().v1();
-      ref.child(id);
+      String id = const Uuid().v1();
+      ref = ref.child(id);
     }
     UploadTask uploadTask = ref.putData(file);
     TaskSnapshot snap = await uploadTask;
