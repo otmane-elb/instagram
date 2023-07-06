@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:instagramv2/screens/comment_screen.dart';
 import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:instagramv2/widgets/like_animation.dart';
@@ -109,14 +110,14 @@ class _PostCardState extends State<PostCard> {
                       child: const Icon(
                         Icons.favorite,
                         color: Colors.white,
-                        size: 150,
+                        size: 120,
                       ),
                       onEnd: () {
                         setState(() {
                           isLikeAnimating = false;
                         });
                       },
-                      duration: Duration(milliseconds: 500),
+                      duration: Duration(milliseconds: 200),
                       isAnimating: isLikeAnimating),
                 )
               ],
@@ -145,7 +146,9 @@ class _PostCardState extends State<PostCard> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(CommentSection());
+                },
                 icon: const Icon(Icons.mode_comment_outlined),
               ),
               IconButton(
