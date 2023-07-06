@@ -14,8 +14,6 @@ class AddPostScreen extends StatelessWidget {
     final controller = Get.put(AddPostController());
     final controller2 = Get.put(Databsecontroller());
 
-    TextEditingController descriptionController = TextEditingController();
-
     return Obx(() {
       Uint8List? file = controller.gfile.value;
 
@@ -77,7 +75,7 @@ class AddPostScreen extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: TextField(
-                          controller: descriptionController,
+                          controller: controller.descriptionController.value,
                           decoration: const InputDecoration(
                             hintText: "Add caption ...",
                             border: InputBorder.none,

@@ -109,4 +109,6 @@ class AddPostController extends GetxController {
       return e.toString();
     }
   }
+
+
 }

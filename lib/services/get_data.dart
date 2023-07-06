@@ -7,6 +7,7 @@ class Databsecontroller extends GetxController {
   static Databsecontroller get instance => Get.find();
 
   Rx<model.User?> mUser = Rx<model.User?>(null);
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<Rx<model.User?>?> getUserData() async {
     if (FirebaseAuth.instance.currentUser?.uid != null) {
@@ -20,7 +21,21 @@ class Databsecontroller extends GetxController {
     return null;
   }
 
-
+  Future<void> likePost(String postId, String uid, List likes) async {
+    try {
+      if (likes.contains(uid)) {
+        await _firestore.collection('posts').doc(postId).update({
+          'likes': FieldValue.arrayRemove([uid])
+        });
+      } else {
+        await _firestore.collection('posts').doc(postId).update({
+          'likes': FieldValue.arrayUnion([uid])
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   void onReady() {

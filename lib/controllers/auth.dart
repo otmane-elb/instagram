@@ -60,7 +60,6 @@ class AuthRepo extends GetxController {
           following: []);
       // adding pic to storage
 
-   
       await _firestore.collection('users').doc(cred.user!.uid).set(
             user.toJson(),
           );
