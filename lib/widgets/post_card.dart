@@ -1,12 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/screens/comment_screen.dart';
 import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
+import 'package:instagramv2/utils/full_screen_image.dart';
 import 'package:instagramv2/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 
 class PostCard extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final snap;
   const PostCard({super.key, required this.snap});
 
@@ -33,18 +36,19 @@ class _PostCardState extends State<PostCard> {
               children: [
                 CircleAvatar(
                   radius: 16,
-                  backgroundImage: NetworkImage(widget.snap['profImage']),
+                  backgroundImage:
+                      CachedNetworkImageProvider(widget.snap['profImage']),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 8),
+                    padding: const EdgeInsets.only(left: 8),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           widget.snap['username'],
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
@@ -85,6 +89,10 @@ class _PostCardState extends State<PostCard> {
 
           //*****image section
           GestureDetector(
+            onTap: () {
+              Get.to(() => FullScreenImage(
+                  imageProvider: NetworkImage(widget.snap['postUrl'])));
+            },
             onDoubleTap: () async {
               await controller.likePost(widget.snap['postId'],
                   controller.mUser.value!.uid, widget.snap['likes']);
@@ -98,27 +106,27 @@ class _PostCardState extends State<PostCard> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.35,
                   width: double.infinity,
-                  child: Image.network(
-                    widget.snap['postUrl'],
+                  child: CachedNetworkImage(
+                    imageUrl: widget.snap['postUrl'],
                     fit: BoxFit.cover,
                   ),
                 ),
                 AnimatedOpacity(
-                  duration: Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 200),
                   opacity: isLikeAnimating ? 1 : 0,
                   child: LikeAnimation(
-                      child: const Icon(
-                        Icons.favorite,
-                        color: Colors.white,
-                        size: 120,
-                      ),
                       onEnd: () {
                         setState(() {
                           isLikeAnimating = false;
                         });
                       },
-                      duration: Duration(milliseconds: 200),
-                      isAnimating: isLikeAnimating),
+                      duration: const Duration(milliseconds: 200),
+                      isAnimating: isLikeAnimating,
+                      child: const Icon(
+                        Icons.favorite,
+                        color: Colors.white,
+                        size: 120,
+                      )),
                 )
               ],
             ),
@@ -137,8 +145,8 @@ class _PostCardState extends State<PostCard> {
                   },
                   icon:
                       widget.snap['likes'].contains(controller.mUser.value?.uid)
-                          ? Icon(Icons.favorite)
-                          : Icon(Icons.favorite_outline),
+                          ? const Icon(Icons.favorite)
+                          : const Icon(Icons.favorite_outline),
                   color:
                       widget.snap['likes'].contains(controller.mUser.value?.uid)
                           ? Colors.red
@@ -147,7 +155,7 @@ class _PostCardState extends State<PostCard> {
               ),
               IconButton(
                 onPressed: () {
-                  Get.to(CommentSection());
+                  Get.to(() => const CommentSection());
                 },
                 icon: const Icon(Icons.mode_comment_outlined),
               ),
@@ -186,11 +194,11 @@ class _PostCardState extends State<PostCard> {
                   padding: const EdgeInsets.only(top: 8),
                   child: RichText(
                     text: TextSpan(
-                      style: TextStyle(color: primaryColor),
+                      style: const TextStyle(color: primaryColor),
                       children: [
                         TextSpan(
                           text: widget.snap['username'],
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
                           text: ' ${widget.snap['description']}',
@@ -215,7 +223,7 @@ class _PostCardState extends State<PostCard> {
                     DateFormat.yMMMd().format(
                       widget.snap['datePublished'].toDate(),
                     ),
-                    style: TextStyle(fontSize: 14, color: secondaryColor),
+                    style: const TextStyle(fontSize: 14, color: secondaryColor),
                   ),
                 ),
               ],

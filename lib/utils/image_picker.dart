@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 pickerimage(ImageSource source) async {
@@ -6,5 +7,6 @@ pickerimage(ImageSource source) async {
   if (file != null) {
     return await file.readAsBytes();
   }
-  print("No image was selected");
+  Get.snackbar('Alert', "No image was selected",
+      snackPosition: SnackPosition.BOTTOM);
 }

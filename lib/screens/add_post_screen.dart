@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/controllers/add_post_controller.dart';
@@ -70,7 +71,7 @@ class AddPostScreen extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         backgroundImage:
-                            NetworkImage(controller2.mUser.value!.photoUrl),
+                            CachedNetworkImageProvider(controller2.mUser.value!.photoUrl),
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,

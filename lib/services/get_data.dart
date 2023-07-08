@@ -33,7 +33,7 @@ class Databsecontroller extends GetxController {
         });
       }
     } catch (e) {
-      print(e.toString());
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     }
   }
 

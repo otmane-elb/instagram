@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/services/get_data.dart';
@@ -27,19 +28,37 @@ class _CommentSectionState extends State<CommentSection> {
           height: kToolbarHeight,
           margin:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          padding: EdgeInsets.only(left: 16, right: 8),
+          padding: const EdgeInsets.only(left: 16, right: 8),
           child: Row(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(controller.mUser.value!.photoUrl),
+                backgroundImage: CachedNetworkImageProvider(
+                  controller.mUser.value!.photoUrl,
+                ),
                 radius: 18,
               ),
               Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 8),
                   child: TextField(
-                decoration: InputDecoration(
-                    hintText:
-                        '  comment as @${controller.mUser.value!.username}'),
-              )),
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText:
+                            'comment as @${controller.mUser.value!.username}'),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  child: const Text(
+                    'Post',
+                    style: TextStyle(color: blueColor),
+                  ),
+                ),
+              )
             ],
           ),
         ),

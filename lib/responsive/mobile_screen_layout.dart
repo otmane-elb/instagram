@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/controllers/pages.dart';
+import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:instagramv2/utils/constants.dart';
 
@@ -12,7 +14,7 @@ class MobileScreenLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     // final controller = Get.put(AuthRepo());
 
-    // final dataController = Get.put(Databsecontroller());
+    final dataController = Get.put(Databsecontroller());
     final pagecontroller = Get.put(PagesController());
 
     return Scaffold(
@@ -98,11 +100,23 @@ class MobileScreenLayout extends StatelessWidget {
                 backgroundColor: primaryColor),
             BottomNavigationBarItem(
                 icon: Obx(
-                  () => Icon(
-                    Icons.person,
-                    color: pagecontroller.page.value == 4
-                        ? primaryColor
-                        : secondaryColor,
+                  () => Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: pagecontroller.page.value == 4
+                            ? Colors.white
+                            : Colors.transparent,
+                        width: 3, // Set the border width
+                      ),
+                    ),
+                    child: CircleAvatar(
+                      backgroundImage:
+                          dataController.mUser.value?.photoUrl != null
+                              ? CachedNetworkImageProvider(
+                                  dataController.mUser.value!.photoUrl)
+                              : null,
+                    ),
                   ),
                 ),
                 backgroundColor: primaryColor),

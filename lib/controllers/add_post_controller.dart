@@ -82,7 +82,7 @@ class AddPostController extends GetxController {
         Get.snackbar('Error', res, snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {
-      print('Error posting image: $e');
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }
@@ -109,6 +109,4 @@ class AddPostController extends GetxController {
       return e.toString();
     }
   }
-
-
 }

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagramv2/utils/colors.dart';
@@ -16,10 +15,12 @@ class FeedScreen extends StatelessWidget {
         centerTitle: false,
         title: SvgPicture.asset(
           "assets/ic_instagram.svg",
-          color: primaryColor,
+          colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
           height: 32,
         ),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.messenger))],
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.messenger))
+        ],
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
