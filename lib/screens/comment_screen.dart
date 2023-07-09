@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
+import 'package:instagramv2/widgets/comment_card.dart';
 
 class CommentSection extends StatefulWidget {
   const CommentSection({super.key});
@@ -23,6 +24,7 @@ class _CommentSectionState extends State<CommentSection> {
         title: const Text("Comments section"),
         centerTitle: false,
       ),
+      body: CommentCrad(),
       bottomNavigationBar: SafeArea(
         child: Container(
           height: kToolbarHeight,
@@ -42,9 +44,10 @@ class _CommentSectionState extends State<CommentSection> {
                   padding: const EdgeInsets.only(left: 16, right: 8),
                   child: TextField(
                     decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText:
-                            'comment as @${controller.mUser.value!.username}'),
+                      border: InputBorder.none,
+                      hintText:
+                          'comment as @${controller.mUser.value!.username}',
+                    ),
                   ),
                 ),
               ),

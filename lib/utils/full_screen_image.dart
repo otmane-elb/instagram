@@ -9,11 +9,15 @@ class FullScreenImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Container(
-        color: Colors.black,
-        child: PhotoView(
-          imageProvider: imageProvider,
+      body: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Container(
+          color: Colors.black,
+          child: PhotoView(
+            imageProvider: imageProvider,
+          ),
         ),
       ),
     );
