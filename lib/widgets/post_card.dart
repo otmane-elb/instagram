@@ -5,13 +5,15 @@ import 'package:instagramv2/screens/comment_screen.dart';
 import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:instagramv2/utils/full_screen_image.dart';
+import 'package:instagramv2/utils/time_format.dart';
 import 'package:instagramv2/widgets/like_animation.dart';
-import 'package:intl/intl.dart';
 
 class PostCard extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
   final snap;
-  const PostCard({super.key, required this.snap});
+  final int commentCount;
+
+  const PostCard({super.key, required this.snap, required this.commentCount});
 
   @override
   State<PostCard> createState() => _PostCardState();
@@ -28,7 +30,7 @@ class _PostCardState extends State<PostCard> {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
-          // **** header section
+          // *********** header section *************
           Container(
             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16)
                 .copyWith(right: 0),
@@ -155,7 +157,9 @@ class _PostCardState extends State<PostCard> {
               ),
               IconButton(
                 onPressed: () {
-                  Get.to(() => const CommentSection());
+                  Get.to(() => CommentSection(
+                        postId: widget.snap['postId'],
+                      ));
                 },
                 icon: const Icon(Icons.mode_comment_outlined),
               ),
@@ -207,22 +211,23 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: const Text(
-                      'View all 200 comments ',
-                      style: TextStyle(fontSize: 16, color: secondaryColor),
-                    ),
-                  ),
-                ),
+                widget.commentCount == 0
+                    ? Container()
+                    : InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Text(
+                            'View all ${widget.commentCount.toString()} comments ',
+                            style:
+                                TextStyle(fontSize: 16, color: secondaryColor),
+                          ),
+                        ),
+                      ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Text(
-                    DateFormat.yMMMd().format(
-                      widget.snap['datePublished'].toDate(),
-                    ),
+                    formatTimestamp(widget.snap['datePublished']),
                     style: const TextStyle(fontSize: 14, color: secondaryColor),
                   ),
                 ),

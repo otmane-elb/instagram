@@ -36,8 +36,26 @@ class FeedScreen extends StatelessWidget {
           }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) =>
-                PostCard(snap: snapshot.data!.docs[index]),
+            itemBuilder: (context, index) {
+              final post = snapshot.data!.docs[index];
+
+              return StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('posts')
+                    .doc(post.id) // Get the document ID of the post
+                    .collection('Comments')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final commentCount = snapshot.data!.docs.length;
+
+                    return PostCard(snap: post, commentCount: commentCount);
+                  } else {
+                    return Container(); // Placeholder while loading comments
+                  }
+                },
+              );
+            },
           );
         },
       ),

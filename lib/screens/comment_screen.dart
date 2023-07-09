@@ -1,12 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:instagramv2/services/addcomments.dart';
 import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:instagramv2/widgets/comment_card.dart';
 
 class CommentSection extends StatefulWidget {
-  const CommentSection({super.key});
+  final String postId;
+  const CommentSection({super.key, required this.postId});
 
   @override
   State<CommentSection> createState() => _CommentSectionState();
@@ -14,6 +17,7 @@ class CommentSection extends StatefulWidget {
 
 class _CommentSectionState extends State<CommentSection> {
   final controller = Get.put(Databsecontroller());
+  final addcontroller = Get.put(AddCommentController());
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,27 @@ class _CommentSectionState extends State<CommentSection> {
         title: const Text("Comments section"),
         centerTitle: false,
       ),
-      body: CommentCrad(),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('posts')
+            .doc(widget.postId)
+            .collection('Comments')
+            .orderBy('datePublished', descending: true)
+            .snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) =>
+                CommentCrad(snap: snapshot.data!.docs[index]),
+          );
+        },
+      ),
       bottomNavigationBar: SafeArea(
         child: Container(
           height: kToolbarHeight,
@@ -43,6 +67,7 @@ class _CommentSectionState extends State<CommentSection> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16, right: 8),
                   child: TextField(
+                    controller: addcontroller.descriptionController.value,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText:
@@ -52,13 +77,29 @@ class _CommentSectionState extends State<CommentSection> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  if (addcontroller.descriptionController.value.text != "") {
+                    addcontroller
+                        .uploadComment(
+                            addcontroller.descriptionController.value.text,
+                            controller.mUser.value!.uid,
+                            controller.mUser.value!.photoUrl,
+                            controller.mUser.value!.username,
+                            widget.postId)
+                        .then((value) => addcontroller
+                            .descriptionController.value.text = '');
+                  }
+                },
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  child: const Text(
-                    'Post',
-                    style: TextStyle(color: blueColor),
+                  child: Obx(
+                    () => addcontroller.isLoading.value
+                        ? CircularProgressIndicator()
+                        : Text(
+                            'Post',
+                            style: TextStyle(color: blueColor),
+                          ),
                   ),
                 ),
               )

@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:instagramv2/utils/time_format.dart';
+import 'package:intl/intl.dart';
 
 class CommentCrad extends StatefulWidget {
-  const CommentCrad({super.key});
+  final snap;
+  const CommentCrad({super.key, this.snap});
 
   @override
   State<CommentCrad> createState() => _CommentCradState();
@@ -15,12 +19,13 @@ class _CommentCradState extends State<CommentCrad> {
       child: Row(
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage("assets/profile.png"),
+            backgroundImage:
+                CachedNetworkImageProvider(widget.snap['profImage']),
             radius: 18,
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(left: 16),
+              padding: const EdgeInsets.only(left: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -29,11 +34,11 @@ class _CommentCradState extends State<CommentCrad> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "username",
+                          text: widget.snap['username'],
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                          text: "Description",
+                          text: '  ${widget.snap['description']}',
                         ),
                       ],
                     ),
@@ -41,7 +46,7 @@ class _CommentCradState extends State<CommentCrad> {
                   Padding(
                     padding: EdgeInsets.only(top: 4),
                     child: Text(
-                      "21/12/23",
+                      formatTimestamp(widget.snap['datePublished']),
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                     ),
@@ -51,8 +56,8 @@ class _CommentCradState extends State<CommentCrad> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(8),
-            child: Icon(
+            padding: const EdgeInsets.all(8),
+            child: const Icon(
               Icons.favorite_outline,
               size: 16,
             ),
