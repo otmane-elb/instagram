@@ -12,8 +12,13 @@ class PostCard extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
   final snap;
   final int commentCount;
+  final String userId; // Add a new property to store the user ID
 
-  const PostCard({super.key, required this.snap, required this.commentCount});
+  const PostCard(
+      {super.key,
+      required this.snap,
+      required this.commentCount,
+      required this.userId});
 
   @override
   State<PostCard> createState() => _PostCardState();
@@ -56,35 +61,35 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-                IconButton(
+                if (widget.snap['uid'] ==
+                    widget
+                        .userId) // Check if the user ID matches the post's user ID
+                  IconButton(
                     onPressed: () {
                       showDialog(
                         context: context,
                         builder: (context) => Dialog(
                           child: ListView(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                            ),
-                            shrinkWrap: true,
+                            // ...
                             children: [
-                              'Delete',
-                            ]
-                                .map(
-                                  (e) => InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 12, horizontal: 16),
-                                      child: Text(e),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
+                              InkWell(
+                                onTap: () {
+                                  controller.deletePost(widget.snap['postId']);
+                                  Get.back();
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 16),
+                                  child: Text('Delete'),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       );
                     },
-                    icon: const Icon(Icons.more_vert))
+                    icon: const Icon(Icons.more_vert),
+                  )
               ],
             ),
           ),

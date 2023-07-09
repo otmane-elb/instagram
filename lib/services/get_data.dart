@@ -37,6 +37,14 @@ class Databsecontroller extends GetxController {
     }
   }
 
+  Future<void> deletePost(String postId) async {
+    try {
+    await   _firestore.collection('posts').doc(postId).delete();
+    } catch (e) {
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
   @override
   void onReady() {
     getUserData();
