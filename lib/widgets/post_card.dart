@@ -14,7 +14,7 @@ class PostCard extends StatefulWidget {
   final int commentCount;
   final String userId; // Add a new property to store the user ID
 
-  const PostCard(
+  PostCard(
       {super.key,
       required this.snap,
       required this.commentCount,
@@ -26,6 +26,7 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(Databsecontroller());
@@ -70,6 +71,7 @@ class _PostCardState extends State<PostCard> {
                         context: context,
                         builder: (context) => Dialog(
                           child: ListView(
+                            shrinkWrap: true,
                             // ...
                             children: [
                               InkWell(
@@ -79,8 +81,8 @@ class _PostCardState extends State<PostCard> {
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 12, horizontal: 16),
-                                  child: Text('Delete'),
+                                      vertical: 20, horizontal: 20),
+                                  child: Center(child: Text('Delete')),
                                 ),
                               ),
                             ],
@@ -98,14 +100,23 @@ class _PostCardState extends State<PostCard> {
           GestureDetector(
             onTap: () {
               Get.to(() => FullScreenImage(
-                  imageProvider: NetworkImage(widget.snap['postUrl'])));
+                  imageProvider:
+                      CachedNetworkImageProvider(widget.snap['postUrl'])));
             },
             onDoubleTap: () async {
-              await controller.likePost(widget.snap['postId'],
-                  controller.mUser.value!.uid, widget.snap['likes']);
+              await controller.likePost(
+                widget.snap['postId'],
+                controller.mUser.value!.uid,
+                widget.snap['likes'],
+              );
+
+              // Use the stored mounted value
               setState(() {
                 isLikeAnimating = true;
+                print('ok');
               });
+
+              print(isLikeAnimating);
             },
             child: Stack(
               alignment: Alignment.center,

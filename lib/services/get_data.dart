@@ -24,6 +24,7 @@ class Databsecontroller extends GetxController {
   Future<void> likePost(String postId, String uid, List likes) async {
     try {
       if (likes.contains(uid)) {
+        print('liked');
         await _firestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayRemove([uid])
         });
@@ -39,12 +40,13 @@ class Databsecontroller extends GetxController {
 
   Future<void> deletePost(String postId) async {
     try {
-    await   _firestore.collection('posts').doc(postId).delete();
+      await _firestore.collection('posts').doc(postId).delete();
     } catch (e) {
       Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     }
   }
-   Future<void> followUser(String uid, String followId) async {
+
+  Future<void> followUser(String uid, String followId) async {
     try {
       DocumentSnapshot snap =
           await _firestore.collection('users').doc(uid).get();

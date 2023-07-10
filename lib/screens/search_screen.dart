@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/controllers/search_controller.dart';
+import 'package:instagramv2/models/user_model.dart';
 import 'package:instagramv2/screens/profile_screen.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -31,7 +33,7 @@ class SearchScreen extends StatelessWidget {
   }
 
   Widget buildUsersList() {
-    return FutureBuilder(
+    return FutureBuilder<QuerySnapshot>(
       future: FirebaseFirestore.instance
           .collection('users')
           .where('username',
@@ -39,25 +41,33 @@ class SearchScreen extends StatelessWidget {
           .where('username', isLessThan: controller.searchController.text + 'z')
           .get(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return Center(
+            child: Text('No users found.'),
+          );
+        }
+
+        final users = snapshot.data!.docs
+            .map((doc) => User.fromJson(doc.data() as Map<String, dynamic>))
+            .toList();
+
         return ListView.builder(
-          itemCount: (snapshot.data! as dynamic).docs.length,
+          itemCount: users.length,
           itemBuilder: (context, index) {
+            final user = users[index];
             return ListTile(
               onTap: () {
-                Get.to(() => ProfileScreen(
-                      uid: (snapshot.data! as dynamic).docs[index]['uid'],
-                    ));
+                Get.to(() => ProfileScreen(uid: user.uid));
               },
               leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    (snapshot.data! as dynamic).docs[index]['photoUrl']),
+                backgroundImage: CachedNetworkImageProvider(user.photoUrl),
               ),
-              title: Text((snapshot.data! as dynamic).docs[index]['username']),
+              title: Text(user.username),
             );
           },
         );
@@ -89,8 +99,8 @@ class SearchScreen extends StatelessWidget {
             return CustomTile(
               index: index,
               extent: ((index % 3) + 1) * 100,
-              child: Image.network(
-                imageUrl,
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
                 fit: BoxFit.cover,
               ),
             );

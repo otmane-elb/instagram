@@ -29,21 +29,32 @@ class User {
     };
   }
 
-static User fromsnapshot(DocumentSnapshot snap) {
-  var snapshot = snap.data();
-  if (snapshot != null && snapshot is Map<String, dynamic>) {
-    return User(
-      email: snapshot['email'],
-      uid: snapshot['uid'],
-      photoUrl: snapshot['photoUrl'],
-      username: snapshot['username'],
-      bio: snapshot['bio'],
-      followers: snapshot['followers'],
-      following: snapshot['following'],
-    );
-  } else {
-    throw Exception('Invalid snapshot data');
+  static User fromsnapshot(DocumentSnapshot snap) {
+    var snapshot = snap.data();
+    if (snapshot != null && snapshot is Map<String, dynamic>) {
+      return User(
+        email: snapshot['email'],
+        uid: snapshot['uid'],
+        photoUrl: snapshot['photoUrl'],
+        username: snapshot['username'],
+        bio: snapshot['bio'],
+        followers: snapshot['followers'],
+        following: snapshot['following'],
+      );
+    } else {
+      throw Exception('Invalid snapshot data');
+    }
   }
-}
 
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      email: json['email'],
+      uid: json['uid'],
+      photoUrl: json['photoUrl'],
+      username: json['username'],
+      bio: json['bio'],
+      followers: json['followers'],
+      following: json['following'],
+    );
+  }
 }

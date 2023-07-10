@@ -6,8 +6,9 @@ import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:instagramv2/widgets/post_card.dart';
 
-class FeedScreen extends StatelessWidget {
-  const FeedScreen({super.key});
+class ProfileFeedScreen extends StatelessWidget {
+  final String uid;
+  const ProfileFeedScreen({super.key, required this.uid});
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +24,17 @@ class FeedScreen extends StatelessWidget {
           height: 32,
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.messenger))
+          IconButton(
+              onPressed: () {
+                print(uid);
+              },
+              icon: const Icon(Icons.messenger))
         ],
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('posts')
-            .orderBy('datePublished', descending: true)
+            .where('uid', isEqualTo: uid)
             .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -67,7 +72,7 @@ class FeedScreen extends StatelessWidget {
                     return PostCard(
                       snap: post,
                       commentCount: commentCount,
-                      userId: controller.mUser.value?.uid ?? '',
+                      userId: controller.mUser.value!.uid,
                     );
                   } else {
                     return Container(); // Placeholder while loading comments

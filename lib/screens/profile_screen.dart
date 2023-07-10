@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/controllers/auth.dart';
 import 'package:instagramv2/screens/login_screen.dart';
+import 'package:instagramv2/screens/profile_feed_screen.dart';
 import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:instagramv2/widgets/follow_button.dart';
@@ -43,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // get post lENGTH
       var postSnap = await FirebaseFirestore.instance
           .collection('posts')
-          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where('uid', isEqualTo: widget.uid)
           .get();
 
       postLen = postSnap.docs.length;
@@ -86,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           CircleAvatar(
                             backgroundColor: Colors.grey,
-                            backgroundImage: NetworkImage(
+                            backgroundImage: CachedNetworkImageProvider(
                               userData['photoUrl'],
                             ),
                             radius: 40,
@@ -227,10 +229,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         DocumentSnapshot snap =
                             (snapshot.data! as dynamic).docs[index];
 
-                        return SizedBox(
-                          child: Image(
-                            image: NetworkImage(snap['postUrl']),
-                            fit: BoxFit.cover,
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(ProfileFeedScreen(uid: snap['uid']));
+                          },
+                          child: SizedBox(
+                            child: Image(
+                              image:
+                                  CachedNetworkImageProvider(snap['postUrl']),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         );
                       },
