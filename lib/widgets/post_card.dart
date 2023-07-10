@@ -219,7 +219,11 @@ class _PostCardState extends State<PostCard> {
                 widget.commentCount == 0
                     ? Container()
                     : InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(() => CommentSection(
+                                postId: widget.snap['postId'],
+                              ));
+                        },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 4),
                           child: Text(
