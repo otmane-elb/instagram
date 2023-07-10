@@ -2,18 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/controllers/search_controller.dart';
+import 'package:instagramv2/screens/profile_screen.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:instagramv2/utils/customTile.dart';
 
 class SearchScreen extends StatelessWidget {
-      final controller = Get.put(SearcheController());
+  final controller = Get.put(SearcheController());
 
-   SearchScreen({super.key});
+  SearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
@@ -35,7 +35,7 @@ class SearchScreen extends StatelessWidget {
       future: FirebaseFirestore.instance
           .collection('users')
           .where('username',
-              isGreaterThanOrEqualTo:controller.searchController.text)
+              isGreaterThanOrEqualTo: controller.searchController.text)
           .where('username', isLessThan: controller.searchController.text + 'z')
           .get(),
       builder: (context, snapshot) {
@@ -48,6 +48,11 @@ class SearchScreen extends StatelessWidget {
           itemCount: (snapshot.data! as dynamic).docs.length,
           itemBuilder: (context, index) {
             return ListTile(
+              onTap: () {
+                Get.to(() => ProfileScreen(
+                      uid: (snapshot.data! as dynamic).docs[index]['uid'],
+                    ));
+              },
               leading: CircleAvatar(
                 backgroundImage: NetworkImage(
                     (snapshot.data! as dynamic).docs[index]['photoUrl']),
