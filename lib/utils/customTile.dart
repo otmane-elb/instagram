@@ -5,7 +5,7 @@ class CustomTile extends StatelessWidget {
   final double extent;
   final Widget child;
 
-  const CustomTile({
+  const CustomTile({super.key, 
     required this.index,
     required this.extent,
     required this.child,
@@ -13,7 +13,7 @@ class CustomTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: extent,
       height: extent,
       child: child,

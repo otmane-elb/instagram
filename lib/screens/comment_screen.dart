@@ -95,8 +95,8 @@ class _CommentSectionState extends State<CommentSection> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: Obx(
                     () => addcontroller.isLoading.value
-                        ? CircularProgressIndicator()
-                        : Text(
+                        ? const CircularProgressIndicator()
+                        : const Text(
                             'Post',
                             style: TextStyle(color: blueColor),
                           ),

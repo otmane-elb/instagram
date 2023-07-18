@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
-import 'package:instagramv2/widgets/post_card.dart';
+import 'package:instagramv2/widgets/post2.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
@@ -50,29 +50,9 @@ class FeedScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final post = snapshot.data!.docs[index];
 
-              return StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('posts')
-                    .doc(post.id) // Get the document ID of the post
-                    .collection('Comments')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container();
-                  }
-
-                  if (snapshot.hasData) {
-                    final commentCount = snapshot.data!.docs.length;
-
-                    return PostCard(
-                      snap: post,
-                      commentCount: commentCount,
-                      userId: controller.mUser.value?.uid ?? '',
-                    );
-                  } else {
-                    return Container(); // Placeholder while loading comments
-                  }
-                },
+              return PostCardv(
+                snap: post,
+                userId: controller.mUser.value?.uid ?? '',
               );
             },
           );

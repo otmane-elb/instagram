@@ -21,7 +21,7 @@ class SearchScreen extends StatelessWidget {
         backgroundColor: mobileBackgroundColor,
         title: TextFormField(
           controller: controller.searchController,
-          decoration: InputDecoration(labelText: "Search for users"),
+          decoration: const InputDecoration(labelText: "Search for users"),
           onFieldSubmitted: (_) => controller.onFieldSubmitted(),
         ),
       ),
@@ -38,16 +38,16 @@ class SearchScreen extends StatelessWidget {
           .collection('users')
           .where('username',
               isGreaterThanOrEqualTo: controller.searchController.text)
-          .where('username', isLessThan: controller.searchController.text + 'z')
+          .where('username', isLessThan: '${controller.searchController.text}z')
           .get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Center(
+          return const Center(
             child: Text('No users found.'),
           );
         }

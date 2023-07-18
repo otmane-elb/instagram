@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/screens/signup_screen.dart';
 import 'package:instagramv2/utils/colors.dart';
+import 'package:instagramv2/utils/constants.dart';
 import 'package:instagramv2/widgets/text_field_input.dart';
 
 import '../controllers/login_controller.dart';
@@ -17,7 +18,10 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: MediaQuery.of(context).size.width > webScreenSize
+              ? EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 3)
+              : const EdgeInsets.symmetric(horizontal: 30),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -9,19 +9,19 @@ import 'package:instagramv2/utils/full_screen_image.dart';
 import 'package:instagramv2/utils/time_format.dart';
 import 'package:instagramv2/widgets/like_animation.dart';
 
-class PostCard extends StatefulWidget {
+class PostCardv extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
   final snap;
   final String userId;
 
-  const PostCard({Key? key, required this.snap, required this.userId})
+  const PostCardv({Key? key, required this.snap, required this.userId})
       : super(key: key);
 
   @override
-  State<PostCard> createState() => _PostCardState();
+  State<PostCardv> createState() => _PostCardvState();
 }
 
-class _PostCardState extends State<PostCard> {
+class _PostCardvState extends State<PostCardv> {
   bool isLikeAnimating = false;
 
   // Add a stream to fetch comments
@@ -129,17 +129,22 @@ class _PostCardState extends State<PostCard> {
                             widget.snap['postUrl'])));
                   },
                   onDoubleTap: () async {
+                    if (controller.mUser.value == null) {
+                      // handle this situation, maybe show a warning to the user
+                      print('User is not signed in!');
+                      return;
+                    }
                     await controller.likePost(
                       widget.snap['postId'],
                       controller.mUser.value!.uid,
                       widget.snap['likes'],
                     );
-                    if (context.mounted) {
-                      setState(() {
-                        isLikeAnimating = true;
-                        print('ok');
-                      });
-                    }
+
+                    setState(() {
+                      isLikeAnimating = true;
+                      print('ok');
+                    });
+
                     // Use the stored mounted value
 
                     print(isLikeAnimating);

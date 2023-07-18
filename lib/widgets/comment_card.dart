@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagramv2/utils/time_format.dart';
-import 'package:intl/intl.dart';
 
 class CommentCrad extends StatefulWidget {
   final snap;
@@ -35,7 +34,7 @@ class _CommentCradState extends State<CommentCrad> {
                       children: [
                         TextSpan(
                           text: widget.snap['username'],
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
                           text: '  ${widget.snap['description']}',
@@ -44,11 +43,11 @@ class _CommentCradState extends State<CommentCrad> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 4),
+                    padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       formatTimestamp(widget.snap['datePublished']),
                       style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                          const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
