@@ -14,6 +14,7 @@ class PagesController extends GetxController {
   @override
   void onInit() {
     pageController = Rx<PageController>(PageController());
+
     super.onInit();
   }
 

@@ -12,7 +12,6 @@ class MobileScreenLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final controller = Get.put(AuthRepo());
 
     final dataController = Get.put(Databsecontroller());
     final pagecontroller = Get.put(PagesController());
@@ -24,37 +23,7 @@ class MobileScreenLayout extends StatelessWidget {
             controller: pagecontroller.pageController.value,
             onPageChanged: (value) {},
             children: homeScreenItems),
-      )
-
-      /*Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Obx(() {
-            if (dataController.mUser != null &&
-                dataController.mUser.value != null) {
-              return Text(dataController.mUser.value!.username);
-            } else {
-              return const Text("Loading...");
-            }
-          }),
-          TextButton(
-            onPressed: () {
-              controller.logout();
-            },
-            child: const Text("Logout"),
-          ),
-          Obx(() {
-            if (dataController.mUser != null &&
-                dataController.mUser.value != null) {
-              return Text(dataController.mUser.value!.email);
-            } else {
-              return const Text("Loading...");
-            }
-          }),
-        ],
-      ),*/
-      ,
+      ),
       bottomNavigationBar: CupertinoTabBar(
           backgroundColor: mobileBackgroundColor,
           items: [

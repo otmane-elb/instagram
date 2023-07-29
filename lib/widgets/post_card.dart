@@ -137,12 +137,9 @@ class _PostCardState extends State<PostCard> {
                     if (context.mounted) {
                       setState(() {
                         isLikeAnimating = true;
-                        print('ok');
                       });
                     }
                     // Use the stored mounted value
-
-                    print(isLikeAnimating);
                   },
                   child: Stack(
                     alignment: Alignment.center,

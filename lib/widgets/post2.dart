@@ -42,6 +42,7 @@ class _PostCardvState extends State<PostCardv> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(Databsecontroller());
+    final width = MediaQuery.of(context).size.width;
 
     // Use the commentStream within a StreamBuilder
     return StreamBuilder<QuerySnapshot>(
@@ -56,7 +57,13 @@ class _PostCardvState extends State<PostCardv> {
 
           // The rest of your PostCard code
           return Container(
-            color: mobileBackgroundColor,
+            decoration: BoxDecoration(
+                color: mobileBackgroundColor,
+                border: Border.all(
+                  color: Colors.white, // Border color
+                  width: 1.0, // Border width
+                ),
+                borderRadius: BorderRadius.circular(10)),
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
               children: [
@@ -131,7 +138,6 @@ class _PostCardvState extends State<PostCardv> {
                   onDoubleTap: () async {
                     if (controller.mUser.value == null) {
                       // handle this situation, maybe show a warning to the user
-                      print('User is not signed in!');
                       return;
                     }
                     await controller.likePost(
@@ -142,12 +148,9 @@ class _PostCardvState extends State<PostCardv> {
 
                     setState(() {
                       isLikeAnimating = true;
-                      print('ok');
                     });
 
                     // Use the stored mounted value
-
-                    print(isLikeAnimating);
                   },
                   child: Stack(
                     alignment: Alignment.center,

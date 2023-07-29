@@ -24,7 +24,6 @@ class Databsecontroller extends GetxController {
   Future<void> likePost(String postId, String uid, List likes) async {
     try {
       if (likes.contains(uid)) {
-        print('liked');
         await _firestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayRemove([uid])
         });

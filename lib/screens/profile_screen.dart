@@ -32,6 +32,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getData();
   }
 
+  cleanvariables() {
+    userData = {};
+    postLen = 0;
+    followers = 0;
+    following = 0;
+    isFollowing = false;
+    isLoading = false;
+  }
+
+  @override
+  void dispose() {
+    // Clean up code here...
+    cleanvariables();
+    super.dispose();
+  }
+
   getData() async {
     setState(() {
       isLoading = true;
@@ -120,16 +136,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             textColor: primaryColor,
                                             borderColor: Colors.grey,
                                             function: () async {
+                                              cleanvariables();
                                               await AuthRepo().logout();
-                                              if (context.mounted) {
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const LoginScreen(),
-                                                  ),
-                                                );
-                                              }
+                                              Get.offAll(
+                                                  () => const LoginScreen());
                                             },
                                           )
                                         : isFollowing
