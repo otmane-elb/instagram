@@ -58,52 +58,55 @@ class AddPostScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              body: Column(
-                children: [
-                  Obx(
-                    () => controller.isLoading.value
-                        ? const LinearProgressIndicator()
-                        : Container(),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        backgroundImage:
-                            CachedNetworkImageProvider(controller2.mUser.value!.photoUrl),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: TextField(
-                          controller: controller.descriptionController.value,
-                          decoration: const InputDecoration(
-                            hintText: "Add caption ...",
-                            border: InputBorder.none,
-                          ),
-                          maxLines: 8,
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Obx(
+                      () => controller.isLoading.value
+                          ? const LinearProgressIndicator()
+                          : Container(),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(
+                              controller2.mUser.value!.photoUrl),
                         ),
-                      ),
-                      SizedBox(
-                        width: 45,
-                        height: 45,
-                        child: AspectRatio(
-                          aspectRatio: 487 / 451,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: MemoryImage(file),
-                                fit: BoxFit.fill,
-                                alignment: FractionalOffset.topCenter,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: TextField(
+                            controller: controller.descriptionController.value,
+                            decoration: const InputDecoration(
+                              hintText: "Add caption ...",
+                              border: InputBorder.none,
+                            ),
+                            maxLines: 8,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: AspectRatio(
+                            aspectRatio: 487 / 451,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: MemoryImage(file),
+                                  fit: BoxFit.fill,
+                                  alignment: FractionalOffset.topCenter,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const Divider(),
-                    ],
-                  ),
-                ],
+                        const Divider(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             );
     });

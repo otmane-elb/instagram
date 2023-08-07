@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
-import 'package:instagramv2/widgets/post2.dart';
+import 'package:instagramv2/utils/constants.dart';
+import 'package:instagramv2/widgets/postCard.dart';
 
 class ProfileFeedScreen extends StatelessWidget {
   final String uid;
@@ -13,20 +14,27 @@ class ProfileFeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(Databsecontroller());
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
-        centerTitle: false,
-        title: SvgPicture.asset(
-          "assets/ic_instagram.svg",
-          colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
-          height: 32,
-        ),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.messenger))
-        ],
-      ),
+      backgroundColor: MediaQuery.of(context).size.width > webScreenSize
+          ? webBackgroundColor
+          : Colors.black,
+      appBar: MediaQuery.of(context).size.width > webScreenSize
+          ? null
+          : AppBar(
+              backgroundColor: mobileBackgroundColor,
+              centerTitle: false,
+              title: SvgPicture.asset(
+                "assets/ic_instagram.svg",
+                colorFilter:
+                    const ColorFilter.mode(primaryColor, BlendMode.srcIn),
+                height: 32,
+              ),
+              actions: [
+                IconButton(onPressed: () {}, icon: const Icon(Icons.messenger))
+              ],
+            ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('posts')
@@ -51,9 +59,15 @@ class ProfileFeedScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final post = snapshot.data!.docs[index];
 
-              return PostCardv(
-                snap: post,
-                userId: controller.mUser.value?.uid ?? '',
+              return Container(
+                decoration: BoxDecoration(),
+                margin: EdgeInsets.symmetric(
+                    horizontal: width > webScreenSize ? width * 0.3 : 0,
+                    vertical: width > webScreenSize ? 10 : 0),
+                child: PostCard(
+                  snap: post,
+                  userId: controller.mUser.value?.uid ?? '',
+                ),
               );
             },
           );

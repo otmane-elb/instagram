@@ -5,23 +5,24 @@ import 'package:get/get.dart';
 import 'package:instagramv2/screens/comment_screen.dart';
 import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
+import 'package:instagramv2/utils/constants.dart';
 import 'package:instagramv2/utils/full_screen_image.dart';
 import 'package:instagramv2/utils/time_format.dart';
 import 'package:instagramv2/widgets/like_animation.dart';
 
-class PostCardv extends StatefulWidget {
+class PostCard extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
   final snap;
   final String userId;
 
-  const PostCardv({Key? key, required this.snap, required this.userId})
+  const PostCard({Key? key, required this.snap, required this.userId})
       : super(key: key);
 
   @override
-  State<PostCardv> createState() => _PostCardvState();
+  State<PostCard> createState() => _PostCardState();
 }
 
-class _PostCardvState extends State<PostCardv> {
+class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
 
   // Add a stream to fetch comments
@@ -59,10 +60,12 @@ class _PostCardvState extends State<PostCardv> {
           return Container(
             decoration: BoxDecoration(
                 color: mobileBackgroundColor,
-                border: Border.all(
-                  color: Colors.white, // Border color
-                  width: 1.0, // Border width
-                ),
+                border: width > webScreenSize
+                    ? Border.all(
+                        color: Colors.white, // Border color
+                        width: 1.0, // Border width
+                      )
+                    : null,
                 borderRadius: BorderRadius.circular(10)),
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
@@ -160,7 +163,7 @@ class _PostCardvState extends State<PostCardv> {
                         width: double.infinity,
                         child: CachedNetworkImage(
                           imageUrl: widget.snap['postUrl'],
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                         ),
                       ),
                       AnimatedOpacity(

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:instagramv2/services/get_data.dart';
 import 'package:instagramv2/utils/colors.dart';
 import 'package:instagramv2/utils/constants.dart';
-import 'package:instagramv2/widgets/post2.dart';
+import 'package:instagramv2/widgets/postCard.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
@@ -18,7 +18,7 @@ class FeedScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: MediaQuery.of(context).size.width > webScreenSize
           ? webBackgroundColor
-          : mobileBackgroundColor,
+          : Colors.black,
       appBar: MediaQuery.of(context).size.width > webScreenSize
           ? null
           : AppBar(
@@ -63,7 +63,7 @@ class FeedScreen extends StatelessWidget {
                 margin: EdgeInsets.symmetric(
                     horizontal: width > webScreenSize ? width * 0.3 : 0,
                     vertical: width > webScreenSize ? 10 : 0),
-                child: PostCardv(
+                child: PostCard(
                   snap: post,
                   userId: controller.mUser.value?.uid ?? '',
                 ),
