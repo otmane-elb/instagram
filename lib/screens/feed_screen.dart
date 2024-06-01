@@ -53,22 +53,22 @@ class FeedScreen extends StatelessWidget {
             );
           }
 
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) {
-              final post = snapshot.data!.docs[index];
+          final posts = snapshot.data!.docs;
 
-              return Container(
-                decoration: BoxDecoration(),
-                margin: EdgeInsets.symmetric(
-                    horizontal: width > webScreenSize ? width * 0.3 : 0,
-                    vertical: width > webScreenSize ? 10 : 0),
-                child: PostCard(
-                  snap: post,
-                  userId: controller.mUser.value?.uid ?? '',
-                ),
-              );
-            },
+          return SingleChildScrollView(
+            child: Column(
+              children: posts.map((post) {
+                return Container(
+                  margin: EdgeInsets.symmetric(
+                      horizontal: width > webScreenSize ? width * 0.3 : 0,
+                      vertical: width > webScreenSize ? 10 : 0),
+                  child: PostCard(
+                    snap: post,
+                    userId: controller.mUser.value?.uid ?? '',
+                  ),
+                );
+              }).toList(),
+            ),
           );
         },
       ),

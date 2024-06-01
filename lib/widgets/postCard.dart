@@ -163,7 +163,7 @@ class _PostCardState extends State<PostCard> {
                         width: double.infinity,
                         child: CachedNetworkImage(
                           imageUrl: widget.snap['postUrl'],
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       AnimatedOpacity(
