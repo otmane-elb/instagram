@@ -17,6 +17,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '11'
+        distribution: 'temurin'  # Specify Java distribution
 
     - name: Install Flutter
       uses: subosito/flutter-action@v2
@@ -26,7 +27,6 @@ jobs:
     - name: Build APK
       run: flutter build apk --release
 
-    # Diagnostic step: Verify APK existence and size
     - name: Verify APK existence
       run: |
         if [ -f build/app/outputs/flutter-apk/app-release.apk ]; then
@@ -37,7 +37,6 @@ jobs:
           exit 1
         fi
 
-    # Diagnostic step: Output Firebase CLI version
     - name: Install Firebase CLI
       run: curl -sL https://firebase.tools | bash
 
