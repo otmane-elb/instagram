@@ -3,7 +3,7 @@ name: Build and Upload APK to Firebase
 on:
   push:
     branches:
-      - master  # Specify the branch you want to trigger this workflow on
+      - master
 
 jobs:
   build:
@@ -26,8 +26,23 @@ jobs:
     - name: Build APK
       run: flutter build apk --release
 
+    # Diagnostic step: Verify APK existence and size
+    - name: Verify APK existence
+      run: |
+        if [ -f build/app/outputs/flutter-apk/app-release.apk ]; then
+          echo "APK found."
+          ls -lh build/app/outputs/flutter-apk/app-release.apk
+        else
+          echo "APK not found in expected directory."
+          exit 1
+        fi
+
+    # Diagnostic step: Output Firebase CLI version
     - name: Install Firebase CLI
       run: curl -sL https://firebase.tools | bash
+
+    - name: Check Firebase CLI Version
+      run: firebase --version
 
     - name: Upload APK to Firebase App Distribution
       env:
