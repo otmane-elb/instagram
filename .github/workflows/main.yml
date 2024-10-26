@@ -1,0 +1,39 @@
+name: Build and Upload APK to Firebase
+
+on:
+  push:
+    branches:
+      - master  # Specify the branch you want to trigger this workflow on
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: 'stable'
+
+    - name: Build APK
+      run: flutter build apk --release
+
+    - name: Install Firebase CLI
+      run: curl -sL https://firebase.tools | bash
+
+    - name: Upload APK to Firebase App Distribution
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      run: |
+        firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
+          --app 1:506379882405:android:496c6cdc204790c5e6e24c \
+          --groups "testers" \
+          --release-notes "Automated build from GitHub Actions"
