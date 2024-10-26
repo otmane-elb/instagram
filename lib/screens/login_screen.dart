@@ -33,6 +33,7 @@ class LoginScreen extends StatelessWidget {
               SvgPicture.asset(
                 "assets/ic_instagram.svg",
                 height: 64,
+                // ignore: deprecated_member_use
                 color: primaryColor,
               ),
               const SizedBox(
